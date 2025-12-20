@@ -3,6 +3,9 @@ from __future__ import annotations
 import argparse
 import fnmatch
 import sys
+if sys.platform.startswith('win'):      # fix windows unicode error on CI
+    sys.stdout.reconfigure(encoding='utf-8')
+
 from pathlib import Path
 from typing import List, Optional
 
