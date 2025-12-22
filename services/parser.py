@@ -14,5 +14,6 @@ def parse_args() -> argparse.Namespace:
     ap.add_argument("--version", "-v", action="store_true", help="Display the version of the tool")
     ap.add_argument("--zip", nargs="?", default=None, const=get_unused_file_path(os.getcwd()), help="Create a zip file containing files under path (respects .gitignore and name defaults to a random ID)")
     ap.add_argument("--output", "-o", nargs="?", default=None, const=get_unused_file_path(os.getcwd()), help="Save tree structure to file (defaults to random ID if no filename given)")
+    ap.add_argument("--copy", "-c", action="store_true", help="Copy tree output to clipboard")
     ap.add_argument("--no-limit", action="store_true", help="Show all items regardless of count")
     return ap.parse_args()

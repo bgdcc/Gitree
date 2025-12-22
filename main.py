@@ -1,6 +1,6 @@
 # main.py
 from __future__ import annotations
-import sys, os, io
+import sys, os, io, pyperclip
 if sys.platform.startswith('win'):      # fix windows unicode error on CI
     sys.stdout.reconfigure(encoding='utf-8')
 
@@ -32,13 +32,7 @@ def main() -> None:
         if not filename.endswith(('.txt', '.md')):
             filename += '.txt'
 
-        # Check if file exists and prompt user
-        if os.path.exists(filename):
-            response = input(f"File '{filename}' already exists. Overwrite? (y/n): ").strip().lower()
-            if response != 'y':
-                print("Operation cancelled.")
-                return
-            
+    if args.copy or args.output is not None:
         # Capture stdout
         output_buffer = io.StringIO()
         original_stdout = sys.stdout
@@ -66,11 +60,12 @@ def main() -> None:
             max_items=max_items,
         )
         if args.output is not None:     # that file output code again
-            # Restore stdout
-            sys.stdout = original_stdout
             # Write to file
             with open(filename, 'w', encoding='utf-8') as f:
                 f.write(output_buffer.getvalue())
+
+        if args.copy:       # Capture output if needed for clipboard
+            pyperclip.copy(output_buffer.getvalue() + "\n")
 
 
 if __name__ == "__main__":
